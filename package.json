@@ -1,6 +1,6 @@
 {
   "name": "@tikz/hedera-mirror-node-ts",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -22,10 +22,10 @@
   },
   "repository": "TikZSZ/ts-hedera-mirror-node-wrapper",
   "keywords": [
-		"hedera",
-		"mirror-node",
-		"typescript",
-		"hashgraph",
-		"rest"
-	]
+    "hedera",
+    "mirror-node",
+    "typescript",
+    "hashgraph",
+    "rest"
+  ]
 }
