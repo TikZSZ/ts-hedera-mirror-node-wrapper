@@ -7,7 +7,7 @@
     "axios": "^0.24.0"
   },
   "scripts": {
-    "prepublish": "git push -u origin main && tsc",
+    "prepublish": "tsc",
     "test": "vitest --run",
     "test:dev": "vitest"
   },
