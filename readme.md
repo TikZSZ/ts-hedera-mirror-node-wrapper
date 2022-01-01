@@ -1,4 +1,4 @@
-### `Typescript Hedera Mirror Node Rest API wrapper with complete declarative abstraction layer`
+> Typescript [Hedera Mirror Node Rest API](https://docs.hedera.com/guides/docs/mirror-node-api/cryptocurrency-api) wrapper with complete declarative abstraction layer
 
 # Features
 - Typed Library
@@ -23,11 +23,11 @@ yarn add @tikz/hedera-mirror-node-ts
 ## Initialize
 Client needs to be initialized with base url depending upon network. `BaseURL should not contain forward slashes at end` 
 ```typescript
+import { Client } from "@tikz/hedera-mirror-node-ts";
 /**
 * https://previewnet.mirrornode.hedera.com
 * https://mainnet-public.mirrornode.hedera.com
 */
-
 const client = new Client(baseURL)
 ```
 
@@ -35,6 +35,8 @@ const client = new Client(baseURL)
 
 ## Get Topic Messages
 ```typescript
+import { Client, topicMessages, optionalFilters } from "@tikz/hedera-mirror-node-ts";
+
 const client = new Client('https://testnet.mirrornode.hedera.com')
 const msgCursor = topicMessages(client)
   .setTopicId('0.0.16430')
@@ -58,6 +60,7 @@ const msgs3 = await msgCursor.next()
 
 ## Get Accounts
 ```typescript
+import { accounts, optionalFilters } from "@tikz/hedera-mirror-node-ts";
 const accountCursor = accounts(client)
   .setAccountId(optionalFilters.lessThan('0.0.15678177'))
   .setLimit(2)
@@ -68,12 +71,16 @@ const accounts2 = await accountCursor.next()
 
 ## Get Transactions
 ```typescript
+import { transactions, optionalFilters, TransactionType } from "@tikz/hedera-mirror-node-ts";
+
 const transactionCursor = transactions(client)
   .setAccountId('0.0.15678177')
   .setLimit(2)
   .setType('debit')
+  .setTransactionType(TransactionType.CONSENSUSSUBMITMESSAGE)
   .setResult('success')
 const txns = await transactionCursor.get()
+// get next batch of transactions
 const txns2 = await transactionCursor.next()
 ``` 
 ### Refer [Transactions](#transactions) `for full api`
@@ -81,6 +88,7 @@ const txns2 = await transactionCursor.next()
 
 ## Network Supply
 ```typescript 
+import { networkSupply } from "@tikz/hedera-mirror-node-ts";
 const supply = await networkSupply(client).get()
 ```
 ### Refer [NetworkSupply](#networksupply) `for full api`
@@ -89,11 +97,7 @@ const supply = await networkSupply(client).get()
 `By default axios is used to make requests which can be easily changed`
 
 ```typescript
-// BaseMirrorClient.ts
-interface BaseMirrorClient{
-  baseURL:string
-  fetch<D=any>(baseURL:string,params:Params):Promise<D>
-}
+import { BaseMirrorClient } from "@tikz/hedera-mirror-node-ts";
 
 // Client.ts
 class AxiosClient implements BaseMirrorClient{
@@ -106,6 +110,23 @@ class AxiosClient implements BaseMirrorClient{
 // index.ts
 const client = new AxiosClient()
 ``` 
+
+# Migrating from deprecated versions
+When `/api/v1` gets deprecated then a more raw approach can be used till library gets updated
+```typescript
+import { Client, TopicMessages,Transactions ,optionalFilters } from "@tikz/hedera-mirror-node-ts";
+
+const client = new Client('https://testnet.mirrornode.hedera.com')
+
+const msgCursor = new TopicMessages(client,'/api/v2/topics')
+  .setTopicId('0.0.16430')
+  .setLimit(10)
+  .order('asc')
+  .sequenceNumber(optionalFilters.greaterThan(20))
+// similarly
+const transactionCursor = new Transactions(client,'/api/v1/transactions')
+```
+
 
 # References
 
