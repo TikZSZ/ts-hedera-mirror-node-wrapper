@@ -1,24 +1,29 @@
-import { BaseMirrorNode } from "./BaseMirrorNode";
 import { filterKeys } from "./filterKeys";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 import { OptionalFilters } from "./OptionalFilters";
-import { Cursor } from "./Cursor";
+import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
+import { transactionType } from "./transactionType";
 
 interface AccountParams {
-  [filterKeys.TRANSACTION_TYPE]: string;
+  [filterKeys.TRANSACTION_TYPE]: transactionType;
   [filterKeys.ACCOUNT_ID]: string;
   [filterKeys.ACCOUNT_PUBLICKEY]: OptionalFilters;
   [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
 }
 
-export class Accounts extends BaseMirrorNode<AccountParams,RootObject> {
+export class Accounts extends HasMoreMirrorNode<AccountParams,AccountsResponse> {
   protected params: Partial<AccountParams> = {};
-  private cursor:Cursor<RootObject>
-  constructor(private mirrorNodeClient:BaseMirrorClient,accountId?:string){
-    super(mirrorNodeClient)
-    this.cursor = new Cursor(this.setURLAndFetch)
+  constructor(mirrorNodeClient:BaseMirrorClient,url:string,accountId?:string){
+    super(mirrorNodeClient,url)
     if(accountId) this.setAccountId(accountId);
   }
+  /**
+   * returns Accounts Mirror Client with version 1 
+   */
+  static v1(mirrorNodeClient:BaseMirrorClient,accountId?:string){
+    return new this(mirrorNodeClient,'/api/v1/accounts',accountId)
+  }
+
   setBalance(val: AccountParams['account.balance']) {
     this.params[filterKeys.ACCOUNT_BALANCE] = val;
     return this;
@@ -33,20 +38,16 @@ export class Accounts extends BaseMirrorNode<AccountParams,RootObject> {
     this.params[filterKeys.ACCOUNT_PUBLICKEY] = val;
     return this;
   }
-  setTransactionType(val: AccountParams['transactiontype']) {}
-
-  async get(){
-    const res = await this.setURLAndFetch(`/api/v1/accounts`)
-    this.cursor.link = res.links.next
-    return res
+  setTransactionType(val: AccountParams['transactiontype']) {
+    this.params[filterKeys.TRANSACTION_TYPE] = val
   }
-  get next(){
-    return this.cursor.next
+  async get(){
+    return this.fetch()
   }
 }
 
 
-interface RootObject {
+interface AccountsResponse {
   accounts: Account[];
   links: Links;
 }

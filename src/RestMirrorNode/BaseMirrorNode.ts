@@ -1,18 +1,13 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { BasicParams } from "./BasicParams";
 import { filterKeys } from "./filterKeys";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 import { OptionalFilters } from "./OptionalFilters";
 
-interface Response {
-  [k:string]:any,
-  links?:{next:string}
-}
 
-export class BaseMirrorNode<P,D extends Response> {
-  constructor(protected mirrorClient:BaseMirrorClient){}
+export abstract class BaseMirrorNode<P,D> {
+  constructor(protected mirrorClient:BaseMirrorClient,protected url:string){}
   private basicParams: Partial<BasicParams> = {};
-  protected params: Partial<P> = {}
+  protected abstract params: Partial<P> 
   order(order: "asc" | "desc") {
     this.basicParams[filterKeys.ORDER] = order;
     return this;
@@ -28,10 +23,11 @@ export class BaseMirrorNode<P,D extends Response> {
   protected get completeParams() {
     return { ...this.params, ...this.basicParams };
   }
-
-  protected setURLAndFetch = (url:string):Promise<D> =>{
-    this.mirrorClient.setUrl(url)
-    return this.mirrorClient.fetch(this.completeParams)
+  protected fetch = () =>{
+    return this.mirrorClient.fetch<D>(this.url,this.completeParams)
+  }
+  protected setURL(url:string){
+    this.url = url
   }
 }
 

@@ -1,9 +1,11 @@
-import { AxiosInstance } from "axios"
+import { BasicParams } from "./BasicParams";
+
+export interface Params extends Partial<BasicParams>{
+  [key:string]:any
+}
 
 export interface BaseMirrorClient{
-  url:string|null;
-  baseURL:string;
-  fetch<D = any>(params:any):Promise<D>
-  setUrl(url:string):void
+  baseURL:string
+  fetch<D=any>(baseURL:string,params:Params):Promise<D>
 }
 

@@ -2,19 +2,24 @@ import { BaseMirrorNode } from "./BaseMirrorNode";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 
 
-export class NetworkSupply extends BaseMirrorNode<{},RootObject> {
-  constructor(mirrorNodeClient:BaseMirrorClient){
-    super(mirrorNodeClient)
+export class NetworkSupply extends BaseMirrorNode<{},NetworkSupplyResponse> {
+  constructor(mirrorNodeClient:BaseMirrorClient,url:string){
+    super(mirrorNodeClient,url)
   }
+
+  static v1(mirrorNodeClient:BaseMirrorClient){
+    return new this(mirrorNodeClient,`/api/v1/network/supply`)
+  }
+
+
   protected params = {};
 
   async get(){
-    const res = await this.setURLAndFetch(`/api/v1/network/supply`)
-    return res
+    return this.fetch()
   }
 }
 
-interface RootObject {
+interface NetworkSupplyResponse {
   released_supply: string;
   timestamp: string;
   total_supply: string;

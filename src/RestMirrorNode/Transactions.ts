@@ -1,24 +1,26 @@
-import { BaseMirrorNode } from "./BaseMirrorNode";
 import { filterKeys } from "./filterKeys";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 import { OptionalFilters } from "./OptionalFilters";
-import { Cursor } from "./Cursor";
-
+import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
+import {transactionType} from "./transactionType"
 interface TransactionParams {
-  [filterKeys.TRANSACTION_TYPE]: string;
+  [filterKeys.TRANSACTION_TYPE]: transactionType;
   [filterKeys.ACCOUNT_ID]: string;
   [filterKeys.RESULT]: 'fail'|'success';
   [filterKeys.CREDIT_TYPE]: 'credit'|'debit';
 }
 
-export class Transactions extends BaseMirrorNode<TransactionParams,RootObject> {
+export class Transactions extends HasMoreMirrorNode<TransactionParams,TransactionsResponse>{
   protected params: Partial<TransactionParams> = {};
-  private cursor:Cursor<RootObject>;
-  constructor( mirrorNodeClient:BaseMirrorClient,accountId?:string){
-    super(mirrorNodeClient)
-    this.cursor = new Cursor(this.setURLAndFetch)
+  constructor(mirrorNodeClient:BaseMirrorClient, url:string,accountId?:string){
+    super(mirrorNodeClient,url)
     if(accountId) this.setAccountId(accountId)
   }
+
+  static v1(mirrorNodeClient:BaseMirrorClient,accountId?:string){
+    return new this(mirrorNodeClient,'/api/v1/transactions',accountId)
+  }
+
   setAccountId(val: OptionalFilters) {
     this.params[filterKeys.ACCOUNT_ID] = val;
     return this;
@@ -34,22 +36,17 @@ export class Transactions extends BaseMirrorNode<TransactionParams,RootObject> {
     return this;
   }
 
-  setTransactionType(val: TransactionParams['transactiontype']) {}
+  setTransactionType(val: TransactionParams['transactiontype']) {
+    this.params[filterKeys.TRANSACTION_TYPE] = val
+  }
 
   async get(){
-    const res = await this.setURLAndFetch(`/api/v1/transactions`)
-    this.cursor.link = res.links.next
-    return res
+    return this.fetch()
   }
-
-  get next(){
-    return this.cursor.next
-  }
-  
 }
 
 
-interface RootObject {
+interface TransactionsResponse {
   transactions: Transaction[];
   links: Links;
 }

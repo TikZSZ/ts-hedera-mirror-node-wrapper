@@ -1,23 +1,24 @@
-import { AxiosInstance } from "axios";
-import { BaseMirrorNode } from "./BaseMirrorNode";
 import { filterKeys } from "./filterKeys";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 import { OptionalFilters } from "./OptionalFilters";
-import { Cursor } from "./Cursor";
+import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
 
 interface ConsensusParams {
   [filterKeys.SEQUENCE_NUMBER]: OptionalFilters;
-  [filterKeys.TOPIC_ID]:string;
 }
 
 
-export class TopicMessages extends BaseMirrorNode<ConsensusParams,RootObject> {
+export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesResponse> {
   protected params: Partial<ConsensusParams> = {};
-  private cursor:Cursor<RootObject>
-  constructor(private mirrorNodeClient:BaseMirrorClient,private topicId:string){
-    super(mirrorNodeClient)
-    this.cursor = new Cursor(this.setURLAndFetch)
+  constructor(mirrorNodeClient:BaseMirrorClient,url:string,private topicId?:string){
+    super(mirrorNodeClient,url)
+
   }
+
+  static v1(mirrorNodeClient:BaseMirrorClient,topicId?:string){
+    return new this(mirrorNodeClient,`/api/v1/topics`,topicId)
+  }
+
   sequenceNumber(val: ConsensusParams['sequencenumber']) {
     this.params[filterKeys.SEQUENCE_NUMBER] = val;
     return this;
@@ -29,16 +30,12 @@ export class TopicMessages extends BaseMirrorNode<ConsensusParams,RootObject> {
   }
 
   async get(){
-    const res = await this.setURLAndFetch(`/api/v1/topics/${this.topicId}/messages`)
-    this.cursor.link = res.links.next
-    return res
-  }
-  get next(){
-    return this.cursor.next
+    this.setURL(`${this.url}/${this.topicId}`)
+    return this.fetch()
   }
 }
 
-interface RootObject {
+interface MessagesResponse {
   links: Links;
   messages: Message[];
 }
@@ -55,3 +52,4 @@ interface Message {
 interface Links {
   next: string;
 }
+
