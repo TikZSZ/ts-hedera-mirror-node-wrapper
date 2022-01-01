@@ -16,7 +16,7 @@ export abstract class HasMoreMirrorNode<P,D extends Response> extends BaseMirror
 
   async next():Promise<D|null>{
     if(!this.nextLink) return null
-    const res = await this.mirrorClient.fetch<D>(this.nextLink,this.completeParams)
+    const res = await this.mirrorClient.fetch<D>(this.nextLink,{})
     this.nextLink = res.links?.next
     return res
   }

@@ -30,7 +30,7 @@ export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesRes
   }
 
   async get(){
-    this.setURL(`${this.url}/${this.topicId}`)
+    this.setURL(`${this.url}/${this.topicId}/messages`)
     return this.fetch()
   }
 }

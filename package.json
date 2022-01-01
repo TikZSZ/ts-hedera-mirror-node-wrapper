@@ -1,5 +1,5 @@
 {
-  "name": "mirror-node-ts-wrapper",
+  "name": "hedera-mirror-node-ts",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,6 +8,11 @@
     "axios": "^0.24.0"
   },
   "scripts": {
-    "prepublish": "tsc"
-  }
+    "prepublish": "tsc",
+    "test":"vitest"
+  },
+  "devDependencies": {
+    "vitest": "^0.0.125"
+  },
+  "types": "./dist/index.d.ts"
 }
