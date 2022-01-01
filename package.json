@@ -15,5 +15,8 @@
   "devDependencies": {
     "vitest": "^0.0.125"
   },
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
 }
