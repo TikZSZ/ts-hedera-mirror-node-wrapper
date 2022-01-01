@@ -1,2 +1,4 @@
 test/*
+test
+src
 vitest.config.js

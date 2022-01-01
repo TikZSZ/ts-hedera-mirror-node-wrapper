@@ -13,11 +13,11 @@
 
 ### npm
 ```shell
-npm install @ts/wrapper
+npm install @tikz/hedera-mirror-node-ts
 ```
 ### yarn
 ```shell
-yarn add @ts/wrapper
+yarn add @tikz/hedera-mirror-node-ts
 ```
 
 ## Initialize
