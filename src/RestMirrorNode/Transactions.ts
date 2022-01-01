@@ -2,9 +2,9 @@ import { filterKeys } from "./filterKeys";
 import { BaseMirrorClient } from "./BaseMirrorClient";
 import { OptionalFilters } from "./OptionalFilters";
 import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
-import {transactionType} from "./transactionType"
+import {TransactionType} from "./TransactionType"
 interface TransactionParams {
-  [filterKeys.TRANSACTION_TYPE]: transactionType;
+  [filterKeys.TRANSACTION_TYPE]: TransactionType;
   [filterKeys.ACCOUNT_ID]: string;
   [filterKeys.RESULT]: 'fail'|'success';
   [filterKeys.CREDIT_TYPE]: 'credit'|'debit';
@@ -38,6 +38,7 @@ export class Transactions extends HasMoreMirrorNode<TransactionParams,Transactio
 
   setTransactionType(val: TransactionParams['transactiontype']) {
     this.params[filterKeys.TRANSACTION_TYPE] = val
+    return this
   }
 
   async get(){
