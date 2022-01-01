@@ -9,7 +9,8 @@
   },
   "scripts": {
     "prepublish": "tsc",
-    "test":"vitest"
+    "test":"vitest --run",
+    "test:dev":"vitest"
   },
   "devDependencies": {
     "vitest": "^0.0.125"
