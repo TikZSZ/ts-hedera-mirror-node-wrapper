@@ -1,6 +1,6 @@
-import {  filterKeys, OptionalFilters } from ".";
+import { filterKeys, OptionalFilters } from "..";
 import { BaseMirrorNode } from "./BaseMirrorNode";
-import {BasicParams} from "./BasicParams"
+import {BasicParams} from "."
 interface Response {
   [k:string]:any,
   links?:{next?:string}

@@ -1,11 +1,24 @@
-import {expect,describe,it, beforeAll} from "vitest"
-import {accounts, Client,networkSupply,optionalFilters,topicMessages, transactions} from "../src"
-import { TransactionType } from "../src/RestMirrorNode/TransactionType"
-let client :Client 
+import { expect, describe, it, beforeAll } from "vitest";
+import {
+  accounts,
+  networkSupply,
+  optionalFilters,
+  topicMessages,
+  TransactionType,
+  transactions,
+  tokenUtils,
+  smartContract,
+  TokenTypeFilter,
+  nftUtils,
+  NFTUtils,
+  TokenUtils,
+} from "../src";
+import { Client } from "../src";
+let client: Client;
 
-beforeAll(()=>{
-  client = new Client('https://testnet.mirrornode.hedera.com')
-})
+beforeAll(() => {
+  client = new Client("https://testnet.mirrornode.hedera.com");
+});
 
 it('should get messages',async ()=>{
   let limit = 10
@@ -44,8 +57,18 @@ it('should get accounts',async ()=>{
   expect(accounts2.accounts[0].account).toEqual('0.0.15678177')
 })
 
-describe("should get transactions",async () =>{
+it('should get smart contracts', async () => {
+  const contractCursor = smartContract(client)
+  const resp = await contractCursor
+  .setLimit(2)
+  .order('asc')
+  .get()
+  expect(resp.contracts.length).toEqual(2)
+  expect(resp.contracts[1] > resp.contracts[0])
+})
 
+
+describe("transactions",async () =>{
   it('should get transfer txns', async ()=>{
     let accountId = '0.0.15678177'
     const transactionCursor = transactions(client)
@@ -88,5 +111,61 @@ describe("should get transactions",async () =>{
   })
 })
 
+describe("tokens", async () => {
+  let tU: TokenUtils;
+  beforeAll(() => {
+    tU = tokenUtils(client);
+  });
+  it("should get txns", async () => {
+    const tokenCursor = tU.TokensCursor.setLimit(2)
+      .order("desc")
+      .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
+    const tokensUnique = await tokenCursor.get();
+    expect(tokensUnique.tokens.length).toEqual(2);
+    expect(tokensUnique.tokens[0].type).toEqual(
+      TokenTypeFilter.NON_FUNGIBLE_UNIQUE.toUpperCase()
+    );
+    const tokensCommon = await tokenCursor.setTokenType(TokenTypeFilter.FUNGIBLE_COMMON).get()
+    expect(tokensCommon.tokens.length).toEqual(2);
+    expect(tokensCommon.tokens[0].type).toEqual(
+      TokenTypeFilter.FUNGIBLE_COMMON.toUpperCase()
+    );
+  });
 
+  it("should get txnInformation and balance", async () => {
+    const tokenCursor = tU.TokensCursor.setLimit(1)
+      .order("desc")
+      .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
+    const tokensUnique = await tokenCursor.get();
+    const tokenInfoCursor = tU.TokenInfoCursor
+      .setTokenId(tokensUnique.tokens[0].token_id)
+    const tokenInfo = await tokenInfoCursor.get()
+    expect(tokenInfo.token_id).toEqual(tokensUnique.tokens[0].token_id)
+    const tokenBalance = await tokenInfoCursor.TokenBalances.get()
+    expect(tokenBalance.balances).toBeDefined()   
+  });
+});
+
+describe('nfts', async () => {
+  let nU: NFTUtils;
+  beforeAll(() => {
+    nU = nftUtils(client);
+  });
+  it('should get nfts', async () => {
+    const nftsCursors = nU.NFTsCursor.order('asc').setTokenId('0.0.26176054')
+    const nfts = await nftsCursors.get()
+    expect(nfts.nfts.length).greaterThanOrEqual(2)
+
+    const nftInfoCursor = nU.NFTInfoCursor
+    .setTokenId('0.0.26176054')
+    .setSerialNumber(1)
+    const nftInfo = await nftInfoCursor.get()  
+    expect(nftInfo.token_id).toEqual('0.0.26176054')
+
+    const nftTxns = await nftInfoCursor
+      .getNFTTransactionHistory()
+        .get()
+    expect(nftTxns.transactions.length).toBeGreaterThanOrEqual(1)
+  })
+})
 

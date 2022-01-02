@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios"
-import { BaseMirrorClient,Params } from "./RestMirrorNode/BaseMirrorClient"
-import { Accounts, NetworkSupply, TopicMessages, Transactions } from "./RestMirrorNode"
+import { BaseMirrorClient,Params } from "./"
+
 class AxiosClient implements BaseMirrorClient{
   private baseApi:AxiosInstance
   constructor(public baseURL:string){
@@ -12,11 +12,6 @@ class AxiosClient implements BaseMirrorClient{
     return response.data
   }
 }
-
-export const accounts = (client:BaseMirrorClient) => Accounts.v1(client)
-export const topicMessages = (client:BaseMirrorClient) => TopicMessages.v1(client)
-export const networkSupply = (client:BaseMirrorClient) => NetworkSupply.v1(client)
-export const transactions = (client:BaseMirrorClient) => Transactions.v1(client)
 
 export {AxiosClient as Client}
 

@@ -1,8 +1,7 @@
-import { BaseMirrorNode } from "./BaseMirrorNode";
-import { BaseMirrorClient } from "./BaseMirrorClient";
+import { BaseMirrorClient, BaseMirrorNode } from "./";
 
 
-export class NetworkSupply extends BaseMirrorNode<{},NetworkSupplyResponse> {
+export class NetworkSupply extends BaseMirrorNode<NetworkSupplyResponse> {
   constructor(mirrorNodeClient:BaseMirrorClient,url:string){
     super(mirrorNodeClient,url)
   }

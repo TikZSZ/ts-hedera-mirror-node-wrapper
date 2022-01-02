@@ -1,8 +1,5 @@
-import { filterKeys } from "./filterKeys";
-import { BaseMirrorClient } from "./BaseMirrorClient";
-import { OptionalFilters } from "./OptionalFilters";
-import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
-import {TransactionType} from "./TransactionType"
+import { filterKeys, HasMoreMirrorNode, BaseMirrorClient, OptionalFilters,TransactionType } from "./";
+
 interface TransactionParams {
   [filterKeys.TRANSACTION_TYPE]: TransactionType;
   [filterKeys.ACCOUNT_ID]: string;

@@ -1,12 +1,10 @@
-import { filterKeys } from "./filterKeys";
-import { BaseMirrorClient } from "./BaseMirrorClient";
-import { OptionalFilters } from "./OptionalFilters";
-import { HasMoreMirrorNode } from "./HasMoreMirrorNode";
+import { filterKeys } from "./helpers/filterKeys";
+import { BaseMirrorClient,OptionalFilters } from "./";
+import { HasMoreMirrorNode } from "./baseClasses/HasMoreMirrorNode";
 
 interface ConsensusParams {
   [filterKeys.SEQUENCE_NUMBER]: OptionalFilters;
 }
-
 
 export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesResponse> {
   protected params: Partial<ConsensusParams> = {};
