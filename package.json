@@ -6,7 +6,7 @@
   "dependencies": {
     "axios": "^0.24.0"
   },
-  "files": ["*/src/*/**"],
+  "files": ["dist"],
   "description": "Typescript Hedera Mirror Node Rest API wrapper with complete declarative abstraction layer",
   "scripts": {
     "prepublish": "tsc",
