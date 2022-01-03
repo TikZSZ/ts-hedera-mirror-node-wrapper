@@ -27,6 +27,7 @@
     "mirror-node",
     "typescript",
     "hashgraph",
-    "rest"
+    "rest",
+    "mirror node"
   ]
 }

@@ -121,7 +121,7 @@ describe("tokens", async () => {
     tU = tokenUtils(client);
   });
   it("should get txns", async () => {
-    const tokenCursor = tU.TokensCursor.setLimit(2)
+    const tokenCursor = tU.Tokens.setLimit(2)
       .order("desc")
       .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
     const tokensUnique = await tokenCursor.get();
@@ -139,11 +139,11 @@ describe("tokens", async () => {
   });
 
   it("should get token information and balance", async () => {
-    const tokenCursor = tU.TokensCursor.setLimit(1)
+    const tokenCursor = tU.Tokens.setLimit(1)
       .order("desc")
       .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
     const tokensUnique = await tokenCursor.get();
-    const tokenInfoCursor = tU.TokenInfoCursor.setTokenId(
+    const tokenInfoCursor = tU.TokenInfo.setTokenId(
       tokensUnique.tokens[0].token_id
     );
     const tokenInfo = await tokenInfoCursor.get();
@@ -159,12 +159,12 @@ describe("nfts", async () => {
     nU = nftUtils(client);
   });
   it("should get nfts", async () => {
-    const nftsCursors = nU.NFTsCursor.order("asc").setTokenId("0.0.26176054");
+    const nftsCursors = nU.NFTs.order("asc").setTokenId("0.0.26176054");
     const nfts = await nftsCursors.get();
     expect(nfts.nfts.length).greaterThanOrEqual(2);
 
     const nftInfoCursor =
-      nU.NFTInfoCursor.setTokenId("0.0.26176054").setSerialNumber(1);
+      nU.NFTInfo.setTokenId("0.0.26176054").setSerialNumber(1);
     const nftInfo = await nftInfoCursor.get();
     expect(nftInfo.token_id).toEqual("0.0.26176054");
 

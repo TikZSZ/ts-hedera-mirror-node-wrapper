@@ -9,15 +9,15 @@ export class TokenUtils{
     return new this(mirrorClient, '/api/v1/tokens')
   }
 
-  get TokensCursor(){
+  get Tokens(){
     return new Tokens(this.mirrorClient,this.url)
   }
 
-  get TokenBalanceCursor(){
+  get TokenBalance(){
     return new TokenBalances(this.mirrorClient,this.url)
   }
 
-  get TokenInfoCursor(){
+  get TokenInfo(){
     return new TokenInfo(this.mirrorClient,this.url)
   }
 }

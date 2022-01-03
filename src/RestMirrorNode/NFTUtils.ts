@@ -9,11 +9,11 @@ export class NFTUtils{
     return new this(mirrorClient, '/api/v1/tokens')
   }
 
-  get NFTsCursor(){
+  get NFTs(){
     return new NFTs(this.mirrorClient,this.url)
   }
 
-  get NFTInfoCursor(){
+  get NFTInfo(){
     return new NFTInfo(this.mirrorClient,this.url)
   }
 

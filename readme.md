@@ -104,7 +104,7 @@ const tokenUtil = tokenUtils(client)
 // don't destructure {TokensCursor, TokenInfoCursor, TokenBalances} 
 // token utils is a class
 
-const tokenCursor = tokenUtil.TokensCursor
+const tokenCursor = tokenUtil.Tokens
   .setLimit(2)
   .order("desc")
   .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
@@ -115,7 +115,7 @@ const tokensCommon = await tokenCursor
   .get();
 
 // token information
-const tokenInfoCursor = tokenUtil.TokenInfoCursor.setTokenId('0.0....');
+const tokenInfoCursor = tokenUtil.TokenInfo.setTokenId('0.0....');
 const tokenInfo = await tokenInfoCursor.get();
 
 // get token balances
@@ -134,19 +134,19 @@ import { nftUtils } from "@tikz/hedera-mirror-node-ts";
 const nftUtil = nftUtils(client)
 
 // get nfts
-const nftsCursors = nftUtil.NFTsCursor
+const nftsCursors = nftUtil.NFTs
   .setTokenId("0.0.....")
   .order("asc");
 const nfts = await nftsCursors.get();
 
 // get nft info
-const nftInfoCursor = nftUtil.NFTInfoCursor
+const nftInfoCursor = nftUtil.NFTInfo
   .setTokenId("0.0.....")
   .setSerialNumber(1);
 const nftInfo = await nftInfoCursor.get();
 
 // get nft transaction history
-const nftTxns = await nftInfoCursor // no need to set token id
+const nftTxns = await nftInfo // no need to set token id
   .getNFTTransactionHistory()
   .get();
   // or 
@@ -180,7 +180,7 @@ const client = new AxiosClient()
 # Migrating from deprecated versions
 When `/api/v1` gets deprecated then a more raw approach can be used till library gets updated
 ```typescript
-import { Client, TopicMessages,Transactions ,optionalFilters } from "@tikz/hedera-mirror-node-ts";
+import { Client, TopicMessages,Transactions ,optionalFilters, TokenUtils, NFTUtils } from "@tikz/hedera-mirror-node-ts";
 
 const client = new Client('https://testnet.mirrornode.hedera.com')
 
@@ -190,8 +190,10 @@ const msgCursor = new TopicMessages(client,'/api/v2/topics')
   .order('asc')
   .sequenceNumber(optionalFilters.greaterThan(20))
 // similarly
-const transactionCursor = new Transactions(client,'/api/v1/transactions')
-const networkSupplyCursor = new NetworkSupply(client,'/api/v1/network/supply')
+const transactionCursor = new Transactions(client,'/api/v2/transactions')
+const networkSupplyCursor = new NetworkSupply(client,'/api/v2/network/supply')
+const tokenUtils = new TokenUtils(client,'/api/v2/token')
+const nftUtils = new NFTUtils(client,'/api/v2/token')
 ```
 
 
