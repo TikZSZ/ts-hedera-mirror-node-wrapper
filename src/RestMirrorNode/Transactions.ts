@@ -2,7 +2,7 @@ import { filterKeys, HasMoreMirrorNode, BaseMirrorClient, OptionalFilters,Transa
 
 interface TransactionParams {
   [filterKeys.TRANSACTION_TYPE]: TransactionType;
-  [filterKeys.ACCOUNT_ID]: string;
+  [filterKeys.ACCOUNT_ID]: OptionalFilters;
   [filterKeys.RESULT]: 'fail'|'success';
   [filterKeys.CREDIT_TYPE]: 'credit'|'debit';
 }

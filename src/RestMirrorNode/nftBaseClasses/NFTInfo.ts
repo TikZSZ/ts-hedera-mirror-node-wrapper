@@ -31,7 +31,7 @@ export class NFTInfo extends BaseMirrorNode<NFTResponse> {
     return this.fetch()
   }
 
-  getNFTTransactionHistory(){
+  get getNFTTransactionHistory(){
     return new NFTTransactionHistory(this.mirrorClient,this.baseURL,this.tokenId,this.serialNumber)
   }
   

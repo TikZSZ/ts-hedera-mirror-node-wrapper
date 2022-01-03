@@ -33,6 +33,7 @@ const client = new Client(baseURL)
 
 # Usage
 
+
 ## Get Topic Messages
 ```typescript
 import { Client, topicMessages, optionalFilters } from "@tikz/hedera-mirror-node-ts";
@@ -93,6 +94,67 @@ const supply = await networkSupply(client).get()
 ```
 ### Refer [NetworkSupply](#networksupply) `for full api`
 
+## Tokens
+```typescript
+import { tokenUtils } from "@tikz/hedera-mirror-node-ts";
+
+const tokenUtil = tokenUtils(client)
+// don't destructure {TokensCursor, TokenInfoCursor, TokenBalances} 
+// token utils is a class
+
+const tokenCursor = tokenUtil.TokensCursor
+  .setLimit(2)
+  .order("desc")
+  .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
+const tokensUnique = await tokenCursor.get();
+
+const tokensCommon = await tokenCursor
+  .setTokenType(TokenTypeFilter.FUNGIBLE_COMMON)
+  .get();
+
+// token information
+const tokenInfoCursor = tokenUtil.TokenInfoCursor.setTokenId('0.0....');
+const tokenInfo = await tokenInfoCursor.get();
+
+// get token balances
+const tokenBalance = await tokenInfoCursor.TokenBalances.get(); // no need to set token id 
+ //or
+const tokenBalance = await tokenUtil.TokenBalances
+  .setTokenId('0.0....')
+  .get();
+```
+### Refer [TokenUtils](#tokenutils) `for full api`
+
+## NFTs
+```typescript
+import { nftUtils } from "@tikz/hedera-mirror-node-ts";
+
+const nftUtil = nftUtils(client)
+
+// get nfts
+const nftsCursors = nftUtil.NFTsCursor
+  .setTokenId("0.0.....")
+  .order("asc");
+const nfts = await nftsCursors.get();
+
+// get nft info
+const nftInfoCursor = nftUtil.NFTInfoCursor
+  .setTokenId("0.0.....")
+  .setSerialNumber(1);
+const nftInfo = await nftInfoCursor.get();
+
+// get nft transaction history
+const nftTxns = await nftInfoCursor // no need to set token id
+  .getNFTTransactionHistory()
+  .get();
+  // or 
+const nftTxns = await nftUtil.NFTTransactionHistory
+  .setTokenId('0.0...')
+  .setSerialNumber(0)
+  .get();
+```
+### Refer [NFTUtils](#nftutils) `for full api`
+
 # Using different client
 `By default axios is used to make requests which can be easily changed`
 
@@ -103,7 +165,7 @@ import { BaseMirrorClient } from "@tikz/hedera-mirror-node-ts";
 class AxiosClient implements BaseMirrorClient{
   public baseURL = 'https://mainnet-public.mirrornode.hedera.com'
   public async fetch<D>(url:string,params:Params):Promise<D>{
-    const response = await axios.get(baseURL,{url,url:params:params})
+    const response = await axios.get(baseURL,{url:url,params:params})
     return response.data
   }
 }
@@ -125,10 +187,19 @@ const msgCursor = new TopicMessages(client,'/api/v2/topics')
   .sequenceNumber(optionalFilters.greaterThan(20))
 // similarly
 const transactionCursor = new Transactions(client,'/api/v1/transactions')
+const networkSupplyCursor = new NetworkSupply(client,'/api/v1/network/supply')
 ```
 
 
 # References
+
+## BasicParams
+`Exists for all resource types that has next cursor link`
+```typescript
+order(order: "asc" | "desc")
+setLimit(limit: number)
+timestamp(timestamp: OptionalFilters)
+```
 
 ## TopicMessages
 ```typescript
@@ -163,7 +234,7 @@ next(): Promise<AccountsResponse>;
 ```typescript
 interface TransactionParams {
   [filterKeys.TRANSACTION_TYPE]: TransactionType; 
-  [filterKeys.ACCOUNT_ID]: string;
+  [filterKeys.ACCOUNT_ID]: OptionalFilters;
   [filterKeys.RESULT]: 'fail' | 'success';
   [filterKeys.CREDIT_TYPE]: 'credit' | 'debit';
 }
@@ -188,19 +259,95 @@ interface NetworkSupplyResponse {
 }
 ```
 
+## TokenUtils
+### Tokens
+```typescript
+  interface TokenParams {
+    [filterKeys.TOKEN_ID]: OptionalFilters;
+    [filterKeys.ACCOUNT_PUBLICKEY]: string;
+    [filterKeys.ACCOUNT_ID]: OptionalFilters;
+    [filterKeys.TOKEN_TYPE]: TokenTypeFilter;
+  }
+  // methods
+  setPublicKey(val: TokenParams['account.publickey']): Tokens;
+  setTokenId(val: TokenParams['token.id']): Tokens;
+  setTokenType(val: TokenParams['type']): Tokens;
+  setAccountId(val: TokenParams['account.id']): Tokens;
+  get(): Promise<TokensResponse>;
+```
+### TokenInfo
+```typescript
+// methods
+setTokenId(val: string): TokenInfo;
+get(): Promise<TokenInfoResponse>;
+TokenBalances: TokenBalances;
+```
+### TokenBalances
+```typescript
+interface TokenBalanceParams {
+  [filterKeys.ACCOUNT_PUBLICKEY]: string;
+  [filterKeys.ACCOUNT_ID]: OptionalFilters;
+  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
+}
+// methods
+setPublicKey(val: TokenBalanceParams['account.publickey']): this;
+setAccountBalance(val: TokenBalanceParams['account.balance']): this;
+setAccountId(val: TokenBalanceParams['account.id']): this;
+setTokenId(val: string): this;
+get(): Promise<TokenBalanceResponse>;
+```
+
+## NFTUtils
+### NFTs
+```typescript
+interface NFTParams {
+  [filterKeys.ACCOUNT_PUBLICKEY]: string;
+  [filterKeys.ACCOUNT_ID]: OptionalFilters;
+  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
+}
+// methods
+setAccountId(val: NFTParams['account.id']): NFTs;
+setTokenId(val: string): NFTs;
+get(): Promise<NFTsResponse>;
+```
+
+### NFTInfo
+```typescript
+// methods
+setTokenId(val: string): NFTInfo;
+setSerialNumber(val: number): NFTInfo;
+get(): Promise<NFTResponse>;
+getNFTTransactionHistory: NFTTransactionHistory;
+```
+### NFTTransactionHistory
+```typescript
+interface TokenBalanceParams {
+  [filterKeys.ACCOUNT_PUBLICKEY]: string;
+  [filterKeys.ACCOUNT_ID]: OptionalFilters;
+  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
+}
+// methods
+setTokenId(val: string): NFTTransactionHistory;
+setSerialNumber(val: number): NFTTransactionHistory;
+get(): Promise<NftTransactionHistoryResponse>;
+```
+
 ## Order
 ```typescript
 type Order = "asc" | "desc"
 ```
+
 ## OptionalFilters 
 ```typescript
 // optionalFilters is a helper provided in package for navigating cursors
-type OptionalFilters = `gt:${string}` | `gte:${string}` | `lt:${string}` | `lte:${string}` | string;
-const optionalFilters: {
+type OptionalFilters = `gt:${string}` | `gte:${string}` | `lt:${string}` | `lte:${string}` | `ne:${string}` | string;
+type optionalFilters: {
   greaterThan(val: any): OptionalFilters;
   greaterThanEqualTo(val: any): OptionalFilters;
   lessThan(val: any): OptionalFilters;
   lessThanEqualTo(val: any): OptionalFilters;
+  notEqualTo(val: any): OptionalFilters;
+  equalTo(val: any): OptionalFilters;
 };
 ```
 

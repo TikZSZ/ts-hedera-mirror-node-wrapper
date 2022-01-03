@@ -16,8 +16,6 @@ export class TokenInfo extends BaseMirrorNode<TokenInfoResponse> {
     return new this(mirrorNodeClient,'/api/v1/tokens',tokenId)
   }
 
-  protected params = {};
-
   async get(){
     if(!this.tokenId) throw new Error('no token id')
     this.setURL(`${this.baseURL}/${this.tokenId}`)

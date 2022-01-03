@@ -138,7 +138,7 @@ describe("tokens", async () => {
     );
   });
 
-  it("should get txnInformation and balance", async () => {
+  it("should get token information and balance", async () => {
     const tokenCursor = tU.TokensCursor.setLimit(1)
       .order("desc")
       .setTokenType(TokenTypeFilter.NON_FUNGIBLE_UNIQUE);
@@ -168,7 +168,7 @@ describe("nfts", async () => {
     const nftInfo = await nftInfoCursor.get();
     expect(nftInfo.token_id).toEqual("0.0.26176054");
 
-    const nftTxns = await nftInfoCursor.getNFTTransactionHistory().get();
+    const nftTxns = await nftInfoCursor.getNFTTransactionHistory.get();
     expect(nftTxns.transactions.length).toBeGreaterThanOrEqual(1);
   });
 });

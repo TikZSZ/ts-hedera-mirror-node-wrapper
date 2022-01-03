@@ -6,6 +6,8 @@ import {
   TransactionType,
 } from "./";
 
+const {} = TransactionType
+
 interface AccountParams {
   [filterKeys.TRANSACTION_TYPE]: TransactionType;
   [filterKeys.ACCOUNT_ID]: OptionalFilters;
