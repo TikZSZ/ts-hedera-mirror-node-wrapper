@@ -1,9 +1,7 @@
 import { filterKeys, OptionalFilters, BaseMirrorClient, HasMoreMirrorNode } from "..";
 
 interface NFTParams{
-  [filterKeys.ACCOUNT_PUBLICKEY]:string,
   [filterKeys.ACCOUNT_ID]:OptionalFilters
-  [filterKeys.ACCOUNT_BALANCE]:OptionalFilters
 }
 
 export class NFTs extends HasMoreMirrorNode<NFTParams,NFTsResponse>{

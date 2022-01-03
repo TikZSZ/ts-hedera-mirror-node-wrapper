@@ -65,7 +65,9 @@ const msgs3 = await msgCursor.next()
 ```typescript
 import { accounts, optionalFilters } from "@tikz/hedera-mirror-node-ts";
 const accountCursor = accounts(client)
-  .setAccountId(optionalFilters.lessThan('0.0.15678177'))
+  .setAccountId(
+    optionalFilters.lessThan('0.0.15678177')
+  )
   .setLimit(2)
 const accounts1 = await accountCursor.get()
 const accounts2 = await accountCursor.next()
@@ -80,7 +82,9 @@ const transactionCursor = transactions(client)
   .setAccountId('0.0.15678177')
   .setLimit(2)
   .setType('debit')
-  .setTransactionType(TransactionType.CONSENSUSSUBMITMESSAGE)
+  .setTransactionType(
+    TransactionType.CONSENSUSSUBMITMESSAGE
+  )
   .setResult('success')
 const txns = await transactionCursor.get()
 // get next batch of transactions
@@ -115,11 +119,13 @@ const tokensCommon = await tokenCursor
   .get();
 
 // token information
-const tokenInfoCursor = tokenUtil.TokenInfo.setTokenId('0.0....');
+const tokenInfoCursor = tokenUtil.TokenInfo
+  .setTokenId('0.0....');
 const tokenInfo = await tokenInfoCursor.get();
 
 // get token balances
-const tokenBalance = await tokenInfoCursor.TokenBalances.get(); // no need to set token id 
+const tokenBalance = await tokenInfoCursor.TokenBalances
+  .get(); // no need to set token id 
  //or
 const tokenBalance = await tokenUtil.TokenBalances
   .setTokenId('0.0....')
@@ -209,11 +215,8 @@ timestamp(timestamp: OptionalFilters)
 
 ## TopicMessages
 ```typescript
-interface ConsensusParams {
-  [filterKeys.SEQUENCE_NUMBER]: OptionalFilters;
-}
 // Methods
-sequenceNumber(val: ConsensusParams['sequencenumber']): TopicMessages;
+sequenceNumber(val: OptionalFilters): TopicMessages;
 setTopicId(val: string): TopicMessages;
 get(): Promise<MessagesResponse>;
 next(): Promise<MessagesResponse>;
@@ -221,34 +224,22 @@ next(): Promise<MessagesResponse>;
 
 ## Accounts
 ```typescript
-interface AccountParams {
-  [filterKeys.TRANSACTION_TYPE]: TransactionType;
-  [filterKeys.ACCOUNT_ID]: string;
-  [filterKeys.ACCOUNT_PUBLICKEY]: OptionalFilters;
-  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
-}
 // Methods
-setBalance(val: AccountParams['account.balance']): Accounts;
-setAccountId(val: AccountParams['account.id']): Accounts;
-setPublicKey(val: AccountParams['account.publickey']): Accounts;
-setTransactionType(val: AccountParams['transactiontype']): Accounts;
+setBalance(val: OptionalFilters): Accounts;
+setAccountId(val: string): Accounts;
+setPublicKey(val: OptionalFilters): Accounts;
+setTransactionType(val: TransactionType): Accounts;
 get(): Promise<AccountsResponse>;
 next(): Promise<AccountsResponse>;
 ```
 
 ## Transactions
 ```typescript
-interface TransactionParams {
-  [filterKeys.TRANSACTION_TYPE]: TransactionType; 
-  [filterKeys.ACCOUNT_ID]: OptionalFilters;
-  [filterKeys.RESULT]: 'fail' | 'success';
-  [filterKeys.CREDIT_TYPE]: 'credit' | 'debit';
-}
 // Methods 
 setAccountId(val: OptionalFilters): Transaction;
-setResult(val: TransactionParams['result']): Transaction;
-setType(val: TransactionParams['type']): Transaction;
-setTransactionType(val: TransactionParams['transactiontype']): Transaction;
+setResult(val: 'fail' | 'success'): Transaction;
+setType(val: 'credit' | 'debit'): Transaction;
+setTransactionType(val: TransactionType): Transaction;
 get(): Promise<TransactionsResponse>;
 next(): Promise<TransactionsResponse>;
 ```
@@ -268,18 +259,12 @@ interface NetworkSupplyResponse {
 ## TokenUtils
 ### Tokens
 ```typescript
-  interface TokenParams {
-    [filterKeys.TOKEN_ID]: OptionalFilters;
-    [filterKeys.ACCOUNT_PUBLICKEY]: string;
-    [filterKeys.ACCOUNT_ID]: OptionalFilters;
-    [filterKeys.TOKEN_TYPE]: TokenTypeFilter;
-  }
-  // methods
-  setPublicKey(val: TokenParams['account.publickey']): Tokens;
-  setTokenId(val: TokenParams['token.id']): Tokens;
-  setTokenType(val: TokenParams['type']): Tokens;
-  setAccountId(val: TokenParams['account.id']): Tokens;
-  get(): Promise<TokensResponse>;
+// methods
+setPublicKey(val: string): Tokens;
+setTokenId(val: OptionalFilters): Tokens;
+setTokenType(val: TokenTypeFilter): Tokens;
+setAccountId(val: OptionalFilters): Tokens;
+get(): Promise<TokensResponse>;
 ```
 ### TokenInfo
 ```typescript
@@ -290,15 +275,10 @@ TokenBalances: TokenBalances;
 ```
 ### TokenBalances
 ```typescript
-interface TokenBalanceParams {
-  [filterKeys.ACCOUNT_PUBLICKEY]: string;
-  [filterKeys.ACCOUNT_ID]: OptionalFilters;
-  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
-}
 // methods
-setPublicKey(val: TokenBalanceParams['account.publickey']): this;
-setAccountBalance(val: TokenBalanceParams['account.balance']): this;
-setAccountId(val: TokenBalanceParams['account.id']): this;
+setPublicKey(val: string): this;
+setAccountBalance(val: OptionalFilters): this;
+setAccountId(val: OptionalFilters): this;
 setTokenId(val: string): this;
 get(): Promise<TokenBalanceResponse>;
 ```
@@ -306,13 +286,8 @@ get(): Promise<TokenBalanceResponse>;
 ## NFTUtils
 ### NFTs
 ```typescript
-interface NFTParams {
-  [filterKeys.ACCOUNT_PUBLICKEY]: string;
-  [filterKeys.ACCOUNT_ID]: OptionalFilters;
-  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
-}
 // methods
-setAccountId(val: NFTParams['account.id']): NFTs;
+setAccountId(val: OptionalFilters): NFTs;
 setTokenId(val: string): NFTs;
 get(): Promise<NFTsResponse>;
 ```
@@ -327,11 +302,6 @@ getNFTTransactionHistory: NFTTransactionHistory;
 ```
 ### NFTTransactionHistory
 ```typescript
-interface TokenBalanceParams {
-  [filterKeys.ACCOUNT_PUBLICKEY]: string;
-  [filterKeys.ACCOUNT_ID]: OptionalFilters;
-  [filterKeys.ACCOUNT_BALANCE]: OptionalFilters;
-}
 // methods
 setTokenId(val: string): NFTTransactionHistory;
 setSerialNumber(val: number): NFTTransactionHistory;
@@ -342,6 +312,15 @@ get(): Promise<NftTransactionHistoryResponse>;
 ```typescript
 type Order = "asc" | "desc"
 ```
+## TokenTypeFilter
+```typescript
+enum TokenTypeFilter {
+  ALL = "all",
+  FUNGIBLE_COMMON = "fungible_common",
+  NON_FUNGIBLE_UNIQUE = "non_fungible_unique"
+}
+```
+
 
 ## OptionalFilters 
 ```typescript
