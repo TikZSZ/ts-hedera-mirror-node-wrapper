@@ -12,6 +12,7 @@ beforeAll(() => {
 it("should get messages", async () => {
   let limit = 10;
   let seqNo = 20;
+
   const msgCursor = topicMessages(client)
     .setTopicId("0.0.16430783")
     .setLimit(limit)
@@ -19,15 +20,19 @@ it("should get messages", async () => {
     .sequenceNumber(optionalFilters.greaterThan(seqNo));
   const msgs = await msgCursor.get();
   expect(msgs.messages.length).toEqual(10);
-  expect(msgs.messages[limit - 1].sequence_number).toEqual(limit + seqNo);
+  expect(msgs.messages[limit - 1].sequence_number)
+    .toEqual(limit + seqNo);
+
   const msgs2 = await msgCursor.next();
   const msgs3 = await msgCursor.next();
-  expect(msgs2!.messages[limit - 1].sequence_number).toEqual(
-    limit + msgs.messages[limit - 1].sequence_number
-  );
-  expect(msgs3!.messages[limit - 1].sequence_number).toEqual(
-    limit + msgs2!.messages[limit - 1].sequence_number
-  );
+  expect(msgs2!.messages[limit - 1].sequence_number)
+    .toEqual(
+      limit + msgs.messages[limit - 1].sequence_number
+    );
+  expect(msgs3!.messages[limit - 1].sequence_number)
+    .toEqual(
+      limit + msgs2!.messages[limit - 1].sequence_number
+    );
 });
 
 it("should get current network supply", async () => {

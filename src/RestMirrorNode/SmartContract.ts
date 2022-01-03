@@ -10,7 +10,6 @@ export class SmartContracts extends HasMoreMirrorNode<SmartContractsParams,Contr
   protected params: Partial<SmartContractsParams> = {};
   constructor(mirrorNodeClient:BaseMirrorClient,url:string,private topicId?:string){
     super(mirrorNodeClient,url)
-
   }
 
   static v1(mirrorNodeClient:BaseMirrorClient,topicId?:string){
