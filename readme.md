@@ -31,6 +31,8 @@ import { Client } from "@tikz/hedera-mirror-node-ts";
 const client = new Client(baseURL)
 ```
 
+
+
 # Usage
 
 
@@ -154,6 +156,8 @@ const nftTxns = await nftUtil.NFTTransactionHistory
   .get();
 ```
 ### Refer [NFTUtils](#nftutils) `for full api`
+
+## //TODO  ScheduleList, ScheduleTransaction, TransactionStateProof
 
 # Using different client
 `By default axios is used to make requests which can be easily changed`
