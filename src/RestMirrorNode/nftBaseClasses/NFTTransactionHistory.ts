@@ -32,7 +32,7 @@ export class NFTTransactionHistory extends HasMoreMirrorNode<{},NftTransactionHi
 }
 
 
-interface NftTransactionHistoryResponse {
+export interface NftTransactionHistoryResponse {
   transactions: Transaction[];
   links: Links;
 }

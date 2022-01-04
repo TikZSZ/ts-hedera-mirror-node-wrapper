@@ -46,7 +46,7 @@ export class Tokens extends HasMoreMirrorNode<TokenParams,TokensResponse>{
 }
 
 
-interface TokensResponse {
+export interface TokensResponse {
   tokens: Token[];
   links: Links;
 }

@@ -4,6 +4,7 @@ export type OptionalFilters =
   | `lt:${string}`
   | `lte:${string}`
   | `ne:${string}`
+  | `eq:${string}`
   | string;
 
 export const optionalFilters = {

@@ -33,7 +33,7 @@ export class NFTs extends HasMoreMirrorNode<NFTParams,NFTsResponse>{
 }
 
 
-interface NFTsResponse {
+export interface NFTsResponse {
   nfts: NFT[];
   links: Links;
 }

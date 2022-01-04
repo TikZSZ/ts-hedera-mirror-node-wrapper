@@ -33,7 +33,7 @@ export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesRes
   }
 }
 
-interface MessagesResponse {
+export interface MessagesResponse {
   links: Links;
   messages: Message[];
 }

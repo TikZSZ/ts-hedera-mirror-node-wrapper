@@ -44,7 +44,7 @@ export class Transactions extends HasMoreMirrorNode<TransactionParams,Transactio
 }
 
 
-interface TransactionsResponse {
+export interface TransactionsResponse {
   transactions: Transaction[];
   links: Links;
 }

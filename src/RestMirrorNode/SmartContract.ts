@@ -27,7 +27,7 @@ export class SmartContracts extends HasMoreMirrorNode<SmartContractsParams,Contr
 }
 
 
-interface ContractResponse {
+export interface ContractResponse {
   contracts: Contract[];
   links: Links;
 }

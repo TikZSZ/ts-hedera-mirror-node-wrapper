@@ -18,7 +18,7 @@ export class NetworkSupply extends BaseMirrorNode<NetworkSupplyResponse> {
   }
 }
 
-interface NetworkSupplyResponse {
+export interface NetworkSupplyResponse {
   released_supply: string;
   timestamp: string;
   total_supply: string;

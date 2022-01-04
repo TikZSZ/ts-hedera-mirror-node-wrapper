@@ -32,7 +32,7 @@ export class TokenInfo extends BaseMirrorNode<TokenInfoResponse> {
   }
 }
 
-interface TokenInfoResponse {
+export interface TokenInfoResponse {
   admin_key?: any;
   auto_renew_account?: any;
   auto_renew_period?: any;

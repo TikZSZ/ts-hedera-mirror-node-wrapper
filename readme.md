@@ -163,6 +163,17 @@ const nftTxns = await nftUtil.NFTTransactionHistory
 ```
 ### Refer [NFTUtils](#nftutils) `for full api`
 
+
+## SmartContracts
+```typescript
+const contractCursor = smartContract(client);
+const resp = await contractCursor
+  .setLimit(2)
+  .order("asc")
+  .get();
+```
+### Refer [SmartContracts](#smartcontracts) `for full api`
+
 ## //TODO  ScheduleList, ScheduleTransaction, TransactionStateProof
 
 # Using different client
@@ -306,6 +317,13 @@ getNFTTransactionHistory: NFTTransactionHistory;
 setTokenId(val: string): NFTTransactionHistory;
 setSerialNumber(val: number): NFTTransactionHistory;
 get(): Promise<NftTransactionHistoryResponse>;
+```
+
+### SmartContracts
+```typescript
+// methods
+setSmartContractId(val: OptionalFilters): SmartContracts;
+get(): Promise<ContractResponse>;
 ```
 
 ## Order
