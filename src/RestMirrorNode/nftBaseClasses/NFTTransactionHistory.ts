@@ -5,8 +5,8 @@ export class NFTTransactionHistory extends HasMoreMirrorNode<{},NftTransactionHi
   private tokenId:string = ''
   private serialNumber:number = 1
   protected params = {}
-  constructor(mirrorClient: BaseMirrorClient, url: string,tokenId?:string,serialNumber?:number){
-    super(mirrorClient,url)
+  constructor(mirrorClient: BaseMirrorClient,protected url: string,tokenId?:string,serialNumber?:number){
+    super(mirrorClient)
     if(tokenId) this.tokenId = tokenId;
     if(serialNumber) this.serialNumber = serialNumber;
   }
@@ -26,8 +26,7 @@ export class NFTTransactionHistory extends HasMoreMirrorNode<{},NftTransactionHi
 
   get(){
     if(!this.tokenId || !this.serialNumber) throw new Error('token id or serial number not set')
-    this.setURL(`${this.url}/${this.tokenId}/nfts/${this.serialNumber}/transactions`)
-    return this.fetch()
+    return this.fetch(`${this.url}/${this.tokenId}/nfts/${this.serialNumber}/transactions`)
   }
 }
 

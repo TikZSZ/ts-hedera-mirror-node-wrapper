@@ -9,8 +9,8 @@ interface TransactionParams {
 
 export class Transactions extends HasMoreMirrorNode<TransactionParams,TransactionsResponse>{
   protected params: Partial<TransactionParams> = {};
-  constructor(mirrorNodeClient:BaseMirrorClient, url:string,accountId?:string){
-    super(mirrorNodeClient,url)
+  constructor(mirrorNodeClient:BaseMirrorClient,protected url:string,accountId?:string){
+    super(mirrorNodeClient)
     if(accountId) this.setAccountId(accountId)
   }
 
@@ -39,7 +39,7 @@ export class Transactions extends HasMoreMirrorNode<TransactionParams,Transactio
   }
 
   async get(){
-    return this.fetch()
+    return this.fetch(this.url)
   }
 }
 

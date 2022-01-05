@@ -12,8 +12,8 @@ export abstract class HasMoreMirrorNode<P,D extends Response> extends BaseMirror
   private nextLink?:string
   private basicParams: Partial<BasicParams> = {};
   protected abstract params: Partial<P> 
-  protected override fetch = async<T extends Response = D>() => {
-    const res = await this.mirrorClient.fetch<T>(this.url,this.completeParams)
+  protected override fetch = async<T extends Response = D>(url:string) => {
+    const res = await this.mirrorClient.fetch<T>(url,this.completeParams)
     this.nextLink = res.links?.next
     return res
   }

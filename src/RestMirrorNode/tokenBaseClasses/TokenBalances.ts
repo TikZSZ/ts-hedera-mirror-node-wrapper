@@ -9,8 +9,8 @@ interface TokenBalanceParams{
 export class TokenBalances extends HasMoreMirrorNode<TokenBalanceParams,TokenBalanceResponse>{
   protected params:Partial<TokenBalanceParams> = {}
   private tokenId:string = ''
-  constructor(mirrorClient: BaseMirrorClient, url: string,tokenId?:string){
-    super(mirrorClient,url)
+  constructor(mirrorClient: BaseMirrorClient, protected url: string,tokenId?:string){
+    super(mirrorClient)
     if(tokenId) this.tokenId = tokenId;
   }
   static v1(mirrorClient: BaseMirrorClient,tokenId?:string){
@@ -39,8 +39,7 @@ export class TokenBalances extends HasMoreMirrorNode<TokenBalanceParams,TokenBal
 
   get(){
     if(!this.tokenId) throw new Error('no token id')
-    this.setURL(`${this.url}/${this.tokenId}/balances`)
-    return this.fetch()
+    return this.fetch(`${this.url}/${this.tokenId}/balances`)
   }
 }
 

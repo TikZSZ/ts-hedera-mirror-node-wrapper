@@ -2,8 +2,8 @@ import { BaseMirrorClient, BaseMirrorNode } from "./";
 
 
 export class NetworkSupply extends BaseMirrorNode<NetworkSupplyResponse> {
-  constructor(mirrorNodeClient:BaseMirrorClient,url:string){
-    super(mirrorNodeClient,url)
+  constructor(mirrorNodeClient:BaseMirrorClient,protected url:string){
+    super(mirrorNodeClient)
   }
 
   static v1(mirrorNodeClient:BaseMirrorClient){
@@ -14,7 +14,7 @@ export class NetworkSupply extends BaseMirrorNode<NetworkSupplyResponse> {
   protected params = {};
 
   async get(){
-    return this.fetch()
+    return this.fetch(this.url)
   }
 }
 

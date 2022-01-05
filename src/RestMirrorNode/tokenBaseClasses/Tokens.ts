@@ -10,10 +10,8 @@ interface TokenParams{
 
 export class Tokens extends HasMoreMirrorNode<TokenParams,TokensResponse>{
   protected params:Partial<TokenParams> = {}
-  url:string = ''
-  constructor(mirrorClient: BaseMirrorClient, url: string){
-    super(mirrorClient,url)
-    this.url = url
+  constructor(mirrorClient: BaseMirrorClient,protected url: string){
+    super(mirrorClient)
   }
   static v1(mirrorClient: BaseMirrorClient){
     return new this(mirrorClient,'/api/v1/tokens')
@@ -40,8 +38,7 @@ export class Tokens extends HasMoreMirrorNode<TokenParams,TokensResponse>{
   }
 
   get(){
-    this.setURL(`${this.url}`)
-    return this.fetch()
+    return this.fetch(this.url)
   }
 }
 

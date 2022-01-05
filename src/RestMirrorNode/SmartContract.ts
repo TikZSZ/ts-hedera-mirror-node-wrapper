@@ -8,8 +8,8 @@ interface SmartContractsParams {
 
 export class SmartContracts extends HasMoreMirrorNode<SmartContractsParams,ContractResponse> {
   protected params: Partial<SmartContractsParams> = {};
-  constructor(mirrorNodeClient:BaseMirrorClient,url:string,private topicId?:string){
-    super(mirrorNodeClient,url)
+  constructor(mirrorNodeClient:BaseMirrorClient,protected url:string,private topicId?:string){
+    super(mirrorNodeClient)
   }
 
   static v1(mirrorNodeClient:BaseMirrorClient,topicId?:string){
@@ -22,7 +22,7 @@ export class SmartContracts extends HasMoreMirrorNode<SmartContractsParams,Contr
   }
 
   async get(){
-    return this.fetch()
+    return this.fetch(this.url)
   }
 }
 

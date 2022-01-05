@@ -8,11 +8,9 @@ interface ConsensusParams {
 
 export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesResponse> {
   protected params: Partial<ConsensusParams> = {};
-  constructor(mirrorNodeClient:BaseMirrorClient,url:string,private topicId?:string){
-    super(mirrorNodeClient,url)
-
+  constructor(mirrorNodeClient:BaseMirrorClient,protected url:string,private topicId?:string){
+    super(mirrorNodeClient)
   }
-
   static v1(mirrorNodeClient:BaseMirrorClient,topicId?:string){
     return new this(mirrorNodeClient,`/api/v1/topics`,topicId)
   }
@@ -28,8 +26,7 @@ export class TopicMessages extends HasMoreMirrorNode<ConsensusParams,MessagesRes
   }
 
   async get(){
-    this.setURL(`${this.url}/${this.topicId}/messages`)
-    return this.fetch()
+    return this.fetch(`${this.url}/${this.topicId}/messages`)
   }
 }
 

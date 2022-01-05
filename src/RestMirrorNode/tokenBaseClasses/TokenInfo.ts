@@ -4,12 +4,9 @@ import { BaseMirrorNode,BaseMirrorClient } from "../";
 
 export class TokenInfo extends BaseMirrorNode<TokenInfoResponse> {
   private tokenId:string = ''
-  private baseURL:string = ''
-  
-  constructor(mirrorNodeClient:BaseMirrorClient,url:string,tokenId?:string){
-    super(mirrorNodeClient,url)
+  constructor(mirrorNodeClient:BaseMirrorClient,protected url:string,tokenId?:string){
+    super(mirrorNodeClient)
     if(tokenId) this.tokenId = tokenId
-    this.baseURL = url
   }
 
   static v1(mirrorNodeClient:BaseMirrorClient,tokenId?:string){
@@ -18,12 +15,11 @@ export class TokenInfo extends BaseMirrorNode<TokenInfoResponse> {
 
   async get(){
     if(!this.tokenId) throw new Error('no token id')
-    this.setURL(`${this.baseURL}/${this.tokenId}`)
-    return this.fetch()
+    return this.fetch(`${this.url}/${this.tokenId}`)
   }
   
   get TokenBalances(){
-    return new TokenBalances(this.mirrorClient,this.baseURL,this.tokenId)
+    return new TokenBalances(this.mirrorClient,this.url,this.tokenId)
   }
 
   setTokenId(val:string){

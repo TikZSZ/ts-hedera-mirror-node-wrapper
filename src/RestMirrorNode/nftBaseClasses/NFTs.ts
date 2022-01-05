@@ -7,8 +7,8 @@ interface NFTParams{
 export class NFTs extends HasMoreMirrorNode<NFTParams,NFTsResponse>{
   protected params:Partial<NFTParams> = {}
   private tokenId:string = ''
-  constructor(mirrorClient: BaseMirrorClient, url: string,tokenId?:string){
-    super(mirrorClient,url)
+  constructor(mirrorClient: BaseMirrorClient,protected url: string,tokenId?:string){
+    super(mirrorClient)
     if(tokenId) this.tokenId = tokenId;
   }
   static v1(mirrorClient: BaseMirrorClient,tokenId?:string){
@@ -27,8 +27,7 @@ export class NFTs extends HasMoreMirrorNode<NFTParams,NFTsResponse>{
 
   get(){
     if(!this.tokenId) throw new Error('no token id')
-    this.setURL(`${this.url}/${this.tokenId}/nfts`)
-    return this.fetch()
+    return this.fetch(`${this.url}/${this.tokenId}/nfts`)
   }
 }
 

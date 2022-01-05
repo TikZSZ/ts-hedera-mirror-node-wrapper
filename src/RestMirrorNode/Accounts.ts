@@ -22,10 +22,10 @@ export class Accounts extends HasMoreMirrorNode<
   protected params: Partial<AccountParams> = {};
   constructor(
     mirrorNodeClient: BaseMirrorClient,
-    url: string,
+    protected url: string,
     accountId?: string
   ) {
-    super(mirrorNodeClient, url);
+    super(mirrorNodeClient);
     if (accountId) this.setAccountId(accountId);
   }
   /**
@@ -54,7 +54,7 @@ export class Accounts extends HasMoreMirrorNode<
     return this;
   }
   async get() {
-    return this.fetch();
+    return this.fetch(this.url);
   }
 }
 
