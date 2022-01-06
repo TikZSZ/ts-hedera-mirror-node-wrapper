@@ -1,12 +1,11 @@
 import { filterKeys, OptionalFilters } from "..";
 import { BaseMirrorNode } from "./BaseMirrorNode";
-import {BasicParams} from "."
+import {BasicParams} from "./"
+
 interface Response {
   [k:string]:any,
   links?:{next?:string}
 }
-
-
 
 export abstract class HasMoreMirrorNode<P,D extends Response> extends BaseMirrorNode<D>{
   private nextLink?:string
