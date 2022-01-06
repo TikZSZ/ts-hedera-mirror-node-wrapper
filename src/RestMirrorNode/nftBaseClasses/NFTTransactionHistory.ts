@@ -1,5 +1,5 @@
 import {  BaseMirrorClient, HasMoreMirrorNode } from "../";
-import {NFT as NFTResponse} from "."
+
 
 export class NFTTransactionHistory extends HasMoreMirrorNode<{},NftTransactionHistoryResponse> {
   private tokenId:string = ''
