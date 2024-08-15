@@ -7,6 +7,34 @@
 - No need to remember how and what params exist for different resources in raw form
 - Easily maintainable
 
+## Changelog
+
+### Version 2.2.0 - *2024-08-15*
+
+#### Internal Changes
+- Significant internal refactoring to support the new features and maintain overall code quality.
+- Despite these changes, **no breaking changes were introduced**, ensuring backward compatibility with previous versions.
+
+#### New Features
+- **`filterParams` Method Added to Base Class:**
+  - Introduced a new `filterParams` method, providing enhanced control to child classes.
+  - Allows for ignoring `order`, `limit` parameters when fetching a single value using `transaction_id`, `account_id`, etc.
+- **You can now fetch a single transaction using `setTransactionId`**
+- **You can now fetch Topic messages based on one `sequence number` or `OptionalFilters` using `setTransactionId`**
+#
+#### Improvements
+- **Type Definitions Updated:**
+  - Refined and updated type definitions to better align with the latest changes in Hedera APIs.
+  
+- **Test Enhancements:**
+  - Improved testing logic to create test data on the fly with caching, leading to more efficient and reliable tests.
+
+- **Dependency Updates:**
+  - Updated all project dependencies to their latest versions, ensuring compatibility and performance improvements.
+- **With the new single entity fetch refactor now no errors will be raised if you provide limit or order etc etc allowing for much more robust reuse of the clients**
+
+
+
 # Getting Started
 
 ## Installation
