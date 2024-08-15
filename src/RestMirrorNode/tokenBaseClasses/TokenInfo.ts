@@ -28,38 +28,45 @@ export class TokenInfo extends BaseMirrorNode<TokenInfoResponse> {
   }
 }
 
-export interface TokenInfoResponse {
-  admin_key?: any;
-  auto_renew_account?: any;
-  auto_renew_period?: any;
+interface TokenInfoResponse {
+  admin_key: key;
+  auto_renew_account: string;
+  auto_renew_period: number;
   created_timestamp: string;
   custom_fees: Customfees;
   decimals: string;
   deleted: boolean;
-  expiry_timestamp: string;
-  fee_schedule_key?: any;
+  expiry_timestamp: number;
+  fee_schedule_key: null;
   freeze_default: boolean;
-  freeze_key?: any;
+  freeze_key: null;
   initial_supply: string;
-  kyc_key?: any;
+  kyc_key: null;
   max_supply: string;
   memo: string;
+  metadata: string;
+  metadata_key: null;
   modified_timestamp: string;
   name: string;
-  pause_key?: any;
+  pause_key: null;
   pause_status: string;
-  supply_key?: any;
+  supply_key: key;
   supply_type: string;
   symbol: string;
   token_id: string;
   total_supply: string;
   treasury_account_id: string;
   type: string;
-  wipe_key?: any;
+  wipe_key: key;
 }
 
 interface Customfees {
   created_timestamp: string;
   fixed_fees: any[];
-  fractional_fees: any[];
+  royalty_fees: any[];
 }
+
+type key = {
+  _type: string;
+  key: string;
+} | null

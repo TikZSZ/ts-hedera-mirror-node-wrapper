@@ -38,6 +38,7 @@ export class Tokens extends HasMoreMirrorNode<TokenParams,TokensResponse>{
   }
 
   get(){
+    console.log(this.url,this.params)
     return this.fetch(this.url)
   }
 }
@@ -49,14 +50,17 @@ export interface TokensResponse {
 }
 
 interface Links {
-  next?: string;
+  next?: string|null;
 }
 
 interface Token {
-  admin_key?: Adminkey;
+  admin_key: Adminkey|null;
+  metadata: string;
+  name: string;
   symbol: string;
   token_id: string;
   type: string;
+  decimals: number;
 }
 
 interface Adminkey {

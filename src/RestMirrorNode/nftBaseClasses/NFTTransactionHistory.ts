@@ -37,14 +37,15 @@ export interface NftTransactionHistoryResponse {
 }
 
 interface Links {
-  next?: any;
+  next?: string|null;
 }
 
 interface Transaction {
   consensus_timestamp: string;
   nonce: number;
-  receiver_account_id: string;
-  sender_account_id?: any;
   transaction_id: string;
   type: string;
+  is_approval: boolean;
+  receiver_account_id: string;
+  sender_account_id: null;
 }

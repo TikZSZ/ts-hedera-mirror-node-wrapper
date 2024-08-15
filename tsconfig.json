@@ -9,12 +9,14 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true,
+    
   },
   "include": ["./src"],
   "exclude": ["test"]

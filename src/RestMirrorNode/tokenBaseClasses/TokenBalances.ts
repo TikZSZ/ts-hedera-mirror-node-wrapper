@@ -44,17 +44,18 @@ export class TokenBalances extends HasMoreMirrorNode<TokenBalanceParams,TokenBal
 }
 
 
-export interface TokenBalanceResponse {
+interface TokenBalanceResponse {
   timestamp: string;
   balances: Balance[];
   links: Links;
 }
 
 interface Links {
-  next?: string
+  next?: string|null;
 }
 
 interface Balance {
   account: string;
   balance: number;
+  decimals: number;
 }

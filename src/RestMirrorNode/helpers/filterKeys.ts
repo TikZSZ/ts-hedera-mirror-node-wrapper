@@ -24,5 +24,6 @@ export enum filterKeys {
   TOKEN_ID = "token.id",
   TOKEN_TYPE = "type",
   TOPIC_ID = "topic.id",
-  TRANSACTION_TYPE = "transactiontype",
+  TRANSACTION_TYPE = "transactionType",
+  TRANSACTION_ID="transaction.id"
 }

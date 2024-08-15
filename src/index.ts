@@ -10,3 +10,4 @@ export const transactions = (client:BaseMirrorClient) => Transactions.v1(client)
 export const tokenUtils = (client:BaseMirrorClient) => TokenUtils.v1(client)
 export const nftUtils = (client:BaseMirrorClient) => NFTUtils.v1(client)
 export const smartContract = (client:BaseMirrorClient) => SmartContracts.v1(client)
+
