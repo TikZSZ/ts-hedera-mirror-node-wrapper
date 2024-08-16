@@ -1,5 +1,6 @@
 export * from "./RestMirrorNode"
 export * from "./AxiosMirrorNodeClient"
+export * from "./FetchClient"
 
 import { Accounts, NetworkSupply, TopicMessages, Transactions } from "./"
 import { BaseMirrorClient, TokenUtils, NFTUtils, SmartContracts } from "./RestMirrorNode"

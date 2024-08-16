@@ -74,7 +74,7 @@ export class Transactions extends HasMoreMirrorNode<TransactionParams, Transacti
       {
         url += `/${this.transactionId}`;
       }
-    // console.debug(url,this.params)
+    console.debug(url,this.completeParams)
     return this.fetch( url )
   }
 }

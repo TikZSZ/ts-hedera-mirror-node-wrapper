@@ -9,6 +9,20 @@
 
 ## Changelog
 
+### Version 3.0.0 - *2024-08-16*
+
+#### Breaking Changes
+- No breaking changes visible to user until and unless they rely on axios for older borwser compatibility.
+- **Default Client Now Uses Fetch API:**
+  - The default `Client` export now uses the Fetch API instead of Axios.
+  - This change reduces the library's bundle size and removes the default dependency on Axios.
+
+#### Deprecations
+- **AxiosClient Deprecated:**
+  - The `AxiosClient` is now deprecated and will be removed in a future version.
+  - If you still need to use Axios, you can import it separately (see Usage section).
+
+
 ### Version 2.2.0 - *2024-08-15*
 
 #### Internal Changes
@@ -20,7 +34,8 @@
   - Introduced a new `filterParams` method, providing enhanced control to child classes.
   - Allows for ignoring `order`, `limit` parameters when fetching a single value using `transaction_id`, `account_id`, etc.
 - **You can now fetch a single transaction using `setTransactionId`**
-- **You can now fetch Topic messages based on one `sequence number` or `OptionalFilters` using `setTransactionId`**
+- **You can now fetch Topic messages based on one `sequence number` or `OptionalFilters` using `setSequenceNumber`**
+- **Use of .sequenceNumber() is now deprecated on topicMessages cursor, use setSequenceNumber insted**
 #
 #### Improvements
 - **Type Definitions Updated:**
@@ -48,21 +63,54 @@ npm install @tikz/hedera-mirror-node-ts
 yarn add @tikz/hedera-mirror-node-ts
 ```
 
-## Initialize
-Client needs to be initialized with base url depending upon network. `BaseURL should not contain forward slashes at end` 
+## Usage
+
+### Using the Default Fetch Client
+
 ```typescript
-import { Client } from "@tikz/hedera-mirror-node-ts";
 /**
-* https://previewnet.mirrornode.hedera.com
-* https://mainnet-public.mirrornode.hedera.com
+* https://testnet.mirrornode.hedera.com
+* https://mainnet.mirrornode.hedera.com
 */
-const client = new Client(baseURL)
+
+import { Client } from '@tikz/hedera-mirror-node-ts';
+
+const client = new Client('https://testnet.mirrornode.hedera.com');
 ```
 
+### Using the Deprecated AxiosClient (Not Recommended)
 
+If you still need to use the Axios-based client, you can import it directly. However, please note that this is deprecated and will be removed in a future version.
+
+```typescript
+import { AxiosClient } from '@tikz/hedera-mirror-node-ts';
+
+const client = new AxiosClient('https://testnet.mirrornode.hedera.com');
+```
+
+**Note:** To use the `AxiosClient`, you need to have Axios installed in your project:
+
+```bash
+npm install axios
+```
+
+or
+
+```bash
+yarn add axios
+```
+
+## Migration Guide
+
+If you're upgrading from a version prior to 3.0.0 and were using the default Axios-based client, you have two options:
+
+1. **Recommended:** Switch to the new Fetch-based client. In most cases, this should be a drop-in replacement and no further changes are needed.
+
+2. If you need to continue using Axios, update your imports to use the `AxiosClient` directly as shown in the Usage section above.
+
+We strongly recommend migrating to the Fetch-based client as the Axios-based client will be removed in a future version.
 
 # Usage
-
 
 ## Get Topic Messages
 ```typescript

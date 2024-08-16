@@ -1,30 +1,20 @@
 {
   "name": "@tikz/hedera-mirror-node-ts",
-  "version": "2.2.0",
+  "version": "3.0.0",
+  "repository": "TikZSZ/ts-hedera-mirror-node-wrapper",
   "main": "./dist/index.js",
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.24.0"
-  },
-  "description": "Typescript Hedera Mirror Node Rest API wrapper with complete declarative abstraction layer",
-  "scripts": {
-    "prepublish": "tsc",
-    "test": "vitest --run",
-    "test:dev": "vitest"
-  },
   "devDependencies": {
     "@hashgraph/sdk": "^2.49.2",
     "@types/node": "^22.3.0",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "axios": "^1.7.4"
   },
-  "types": "./dist/index.d.ts",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org",
-    "access": "public"
+  "peerDependencies": {
+    "axios": "^1.7.4"
   },
-  "repository": "TikZSZ/ts-hedera-mirror-node-wrapper",
+  "description": "Typescript Hedera Mirror Node Rest API wrapper with complete declarative abstraction layer",
   "keywords": [
     "hedera",
     "mirror-node",
@@ -32,5 +22,16 @@
     "hashgraph",
     "rest",
     "mirror node"
-  ]
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "test": "vitest --run",
+    "test:dev": "vitest"
+  },
+  "types": "./dist/index.d.ts"
 }

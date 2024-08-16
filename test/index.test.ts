@@ -31,6 +31,7 @@ import
   NFTUtils,
   TokenUtils,
   Client as MirrorClient,
+  AxiosClient
 } from "../src";
 import fs from 'fs';
 import path from 'path';
@@ -88,7 +89,7 @@ beforeAll( async () =>
   sdkClient = Client.forTestnet().setOperator( operatorId, operatorKey );
 
   // Initialize Mirror Node client
-  mirrorClient = new MirrorClient( "https://testnet.mirrornode.hedera.com" );
+  mirrorClient = new MirrorClient( "https://testnet.mirrornode.hedera.com/" );
   console.log( "Operator ID:", operatorId.toString() );
 
   if ( !refresh && loadTestData() )
